@@ -1959,7 +1959,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      projectName: ""
+      projectName: "",
+      valid: true
     };
   },
   methods: {
@@ -1979,8 +1980,9 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     validateProjectName: function validateProjectName() {
-      axios.get("/projects/validate/" + this.projectName);
-      $(this.$refs.modal).modal("hide");
+      axios.get("/api/findProjectByName/" + this.projectName).then(function () {})["catch"](function (error) {
+        console.log(error);
+      });
     }
   }
 });

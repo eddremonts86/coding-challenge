@@ -49,7 +49,8 @@
 <script>
 export default {
     data: () => ({
-        projectName: ""
+        projectName: "",
+        valid: true
     }),
     methods: {
         open() {
@@ -68,8 +69,13 @@ export default {
             }
         },
         validateProjectName() {
-            axios.get("/projects/validate/" + this.projectName )
-            $(this.$refs.modal).modal("hide");
+            axios.get("/api/findProjectByName/" + this.projectName )
+            .then(function () {
+
+            }).catch(function (error) {
+
+                console.log(error);
+            });
         }
     }
 };
