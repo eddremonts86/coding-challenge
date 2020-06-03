@@ -39,7 +39,7 @@ export default {
         open(project) {
             this.project = project
             this.projectName = this.project.name
-           $(this.$refs.modal).modal('show');
+            $(this.$refs.modal).modal('show');
         },
         closeModal() {
             $(this.$refs.modal).modal('hide');

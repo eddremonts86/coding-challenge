@@ -61,6 +61,13 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+            .disabled{
+                cursor: not-allowed;
+                opacity: 0.5;
+                pointer-events: none;
+                text-decoration: none;
+            }
+
         </style>
     </head>
     <body>
@@ -73,7 +80,7 @@
                         <a href="{{ route('login') }}">Login</a>
 
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
+                            <a class="disabled" href="{{ route('register') }}">Register</a>
                         @endif
                     @endauth
                 </div>

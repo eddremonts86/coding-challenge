@@ -4,10 +4,13 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <div class="alert alert-danger" role="alert">
+                {{_('New user registration is not enabled. Please contact the Administrator.')}}
+            </div>
             <div class="card">
                 <div class="card-header">{{ __('Register') }}</div>
 
-                <div class="card-body">
+                <div class="card-body disabled">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 

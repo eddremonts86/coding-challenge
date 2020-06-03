@@ -18,6 +18,18 @@ class ProjectController extends Controller
         return view('projects.show', ['project' => $project]);
     }
 
+    public function findByName(Request $request)
+    {   
+        $projectName =$request->get('name');
+        $project = Project::where('name', $projectName)->first();
+            if($project->id){
+                return response()->json(['status' => 'error', 'message' => 'The Project is already in the DB']);
+            }
+            else{
+                return response()->json(['status' => 'success']);
+            }
+    }
+
     public function add(Request $request)
     {
         Project::create([
