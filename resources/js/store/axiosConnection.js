@@ -2,15 +2,13 @@ import Axios from "axios";
 
 class axiosConnection {
   urlBase() {
-    return process.env.VUE_APP_ApiUrlBase;
-  }
-  urlFacebookProxy() {
-    return process.env.VUE_APP_FacebookProxy;
+    return process.env.MIX_VUE_APP_ApiUrlBase;
   }
   axiosConf() {
     return {
       headers: {
-        "content-type": "application/json"
+        "content-type": "application/json",
+        "Accept": "application/json"
       }
     };
   }
@@ -19,16 +17,11 @@ class axiosConnection {
     return await Axios.get(url, this.axiosConf(), id);
   }
   async getByFilter(apiUrl, filter) {
-    const url = this.urlBase() + apiUrl + "/?" + filter;
+    const url = this.urlBase() + apiUrl + "/" + filter;
     return await Axios.get(url, this.axiosConf());
   }
   async getAll(apiUrl) {
     const url = this.urlBase() + apiUrl;
-    const data = await Axios.get(url, this.axiosConf());
-    return data;
-  }
-  async getFacebookProxy(apiUrl) {
-    const url = this.urlFacebookProxy() + apiUrl;
     const data = await Axios.get(url, this.axiosConf());
     return data;
   }

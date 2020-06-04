@@ -1968,13 +1968,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -1983,8 +1976,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       valid: true
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['fetchTasks'])),
-  methods: {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(["getMessage"])),
+  methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["fetchByName", "postProject"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(["setMessage"])), {}, {
     open: function open() {
       $(this.$refs.modal).modal("show");
     },
@@ -1993,19 +1986,46 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.projectName = "";
     },
     submit: function submit() {
-      if (this.validateProjectName()) {
-        axios.post("/projects/add", {
-          name: this.projectName
-        });
-        $(this.$refs.modal).modal("hide");
-      }
+      var _this = this;
+
+      var vm = this;
+      this.fetchByName(this.projectName).then(function (response) {
+        var test = response.data.data;
+
+        if (!test[0]) {
+          _this.postProject({
+            name: _this.projectName
+          })["catch"](function (error) {
+            console.log(error);
+          })["finally"](function () {
+            return $(vm.$refs.modal).modal("hide");
+          });
+        } else {
+          _this.setMessage(true);
+        }
+      })["catch"](function (error) {
+        console.log(error);
+        _this.Message = error;
+      });
     },
     validateProjectName: function validateProjectName() {
-      this.fetchTasks(this.projectName).then(function () {})["catch"](function (error) {
-        console.log(error);
-      });
+      var _this2 = this;
+
+      if (this.projectName.length > 0) {
+        this.fetchByName(this.projectName).then(function (response) {
+          var test = response.data.data;
+
+          if (!test[0]) {
+            _this2.setMessage(false);
+          } else {
+            _this2.setMessage(true);
+          }
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
     }
-  }
+  })
 });
 
 /***/ }),
@@ -2019,6 +2039,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2042,40 +2069,70 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       project: null,
-      projectName: ''
+      projectName: ""
     };
   },
-  computed: {
+  computed: _objectSpread({
     name: function name() {
       if (this.project) {
         return this.project.name;
       }
 
-      return '';
+      return "";
     }
-  },
-  methods: {
+  }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(["getMessage"])),
+  methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["fetchByName", "putProject"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(["setMessage"])), {}, {
     open: function open(project) {
       this.project = project;
       this.projectName = this.project.name;
-      $(this.$refs.modal).modal('show');
+      $(this.$refs.modal).modal("show");
     },
     closeModal: function closeModal() {
-      $(this.$refs.modal).modal('hide');
-      this.projectName = '';
+      $(this.$refs.modal).modal("hide");
+      this.projectName = "";
     },
     submit: function submit() {
-      axios.post('/projects/update', {
+      this.putProject({
         id: this.project.id,
         name: this.projectName
       });
-      $(this.$refs.modal).modal('hide');
+      $(this.$refs.modal).modal("hide");
+    },
+    validateProjectName: function validateProjectName() {
+      var _this = this;
+
+      if (this.projectName.length > 0 && str.trim(this.project.name) !== this.projectName) {
+        this.fetchByName(this.projectName).then(function (response) {
+          var test = response.data.data;
+
+          if (!test[0]) {
+            _this.setMessage(false);
+          } else {
+            _this.setMessage(true);
+          }
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
     }
-  }
+  })
 });
 
 /***/ }),
@@ -38637,6 +38694,25 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "modal-body" }, [
+            _vm.getMessage
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "alert alert-warning",
+                    attrs: { role: "alert" }
+                  },
+                  [
+                    _c("p", [
+                      _vm._v(
+                        "Proyect " +
+                          _vm._s(_vm.projectName) +
+                          " is already in the list."
+                      )
+                    ])
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
             _c("div", { staticClass: "form-group" }, [
               _c("label", { attrs: { for: "project_name" } }, [
                 _vm._v("Project name")
@@ -38659,6 +38735,7 @@ var render = function() {
                 },
                 domProps: { value: _vm.projectName },
                 on: {
+                  keyup: _vm.validateProjectName,
                   input: function($event) {
                     if ($event.target.composing) {
                       return
@@ -38683,14 +38760,14 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("\n                    Cancel\n                ")]
+              [_vm._v("Cancel")]
             ),
             _vm._v(" "),
             _c(
               "button",
               {
                 staticClass: "btn btn-success",
-                attrs: { type: "button" },
+                attrs: { type: "button", disabled: _vm.getMessage },
                 on: {
                   click: function($event) {
                     $event.preventDefault()
@@ -38698,7 +38775,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("\n                    Save project\n                ")]
+              [_vm._v("Save project")]
             )
           ])
         ])
@@ -38765,6 +38842,25 @@ var render = function() {
                 _vm._v("Project name")
               ]),
               _vm._v(" "),
+              _vm.getMessage
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "alert alert-warning",
+                      attrs: { role: "alert" }
+                    },
+                    [
+                      _c("p", [
+                        _vm._v(
+                          "Proyect " +
+                            _vm._s(_vm.projectName) +
+                            " is already in the list."
+                        )
+                      ])
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
               _c("input", {
                 directives: [
                   {
@@ -38782,6 +38878,7 @@ var render = function() {
                 },
                 domProps: { value: _vm.projectName },
                 on: {
+                  keyup: _vm.validateProjectName,
                   input: function($event) {
                     if ($event.target.composing) {
                       return
@@ -38813,7 +38910,7 @@ var render = function() {
               "button",
               {
                 staticClass: "btn btn-success",
-                attrs: { type: "button" },
+                attrs: { type: "button", disabled: _vm.getMessage },
                 on: {
                   click: function($event) {
                     $event.preventDefault()
@@ -52761,7 +52858,7 @@ var LOGGED_USER = 'LOGGED_USER';
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
@@ -52787,19 +52884,15 @@ var axiosConnection = /*#__PURE__*/function () {
   _createClass(axiosConnection, [{
     key: "urlBase",
     value: function urlBase() {
-      return process.env.VUE_APP_ApiUrlBase;
-    }
-  }, {
-    key: "urlFacebookProxy",
-    value: function urlFacebookProxy() {
-      return process.env.VUE_APP_FacebookProxy;
+      return "/api/";
     }
   }, {
     key: "axiosConf",
     value: function axiosConf() {
       return {
         headers: {
-          "content-type": "application/json"
+          "content-type": "application/json",
+          "Accept": "application/json"
         }
       };
     }
@@ -52842,7 +52935,7 @@ var axiosConnection = /*#__PURE__*/function () {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                url = this.urlBase() + apiUrl + "/?" + filter;
+                url = this.urlBase() + apiUrl + "/" + filter;
                 _context2.next = 3;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url, this.axiosConf());
 
@@ -52895,23 +52988,22 @@ var axiosConnection = /*#__PURE__*/function () {
       return getAll;
     }()
   }, {
-    key: "getFacebookProxy",
+    key: "delete",
     value: function () {
-      var _getFacebookProxy = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(apiUrl) {
-        var url, data;
+      var _delete2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(apiUrl, id) {
+        var url;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                url = this.urlFacebookProxy() + apiUrl;
+                url = this.urlBase() + apiUrl + "/" + id;
                 _context4.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url, this.axiosConf());
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a["delete"](url, this.axiosConf());
 
               case 3:
-                data = _context4.sent;
-                return _context4.abrupt("return", data);
+                return _context4.abrupt("return", _context4.sent);
 
-              case 5:
+              case 4:
               case "end":
                 return _context4.stop();
             }
@@ -52919,24 +53011,24 @@ var axiosConnection = /*#__PURE__*/function () {
         }, _callee4, this);
       }));
 
-      function getFacebookProxy(_x6) {
-        return _getFacebookProxy.apply(this, arguments);
+      function _delete(_x6, _x7) {
+        return _delete2.apply(this, arguments);
       }
 
-      return getFacebookProxy;
+      return _delete;
     }()
   }, {
-    key: "delete",
+    key: "put",
     value: function () {
-      var _delete2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(apiUrl, id) {
+      var _put = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(apiUrl, id, object) {
         var url;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                url = this.urlBase() + apiUrl + "/" + id;
+                url = this.urlBase() + apiUrl + "/" + id + "/";
                 _context5.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a["delete"](url, this.axiosConf());
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.put(url, object, this.axiosConf());
 
               case 3:
                 return _context5.abrupt("return", _context5.sent);
@@ -52949,24 +53041,24 @@ var axiosConnection = /*#__PURE__*/function () {
         }, _callee5, this);
       }));
 
-      function _delete(_x7, _x8) {
-        return _delete2.apply(this, arguments);
+      function put(_x8, _x9, _x10) {
+        return _put.apply(this, arguments);
       }
 
-      return _delete;
+      return put;
     }()
   }, {
-    key: "put",
+    key: "post",
     value: function () {
-      var _put = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6(apiUrl, id, object) {
+      var _post = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6(apiUrl, object) {
         var url;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                url = this.urlBase() + apiUrl + "/" + id + "/";
+                url = this.urlBase() + apiUrl + "/";
                 _context6.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.put(url, object, this.axiosConf());
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url, object, this.axiosConf());
 
               case 3:
                 return _context6.abrupt("return", _context6.sent);
@@ -52979,24 +53071,24 @@ var axiosConnection = /*#__PURE__*/function () {
         }, _callee6, this);
       }));
 
-      function put(_x9, _x10, _x11) {
-        return _put.apply(this, arguments);
+      function post(_x11, _x12) {
+        return _post.apply(this, arguments);
       }
 
-      return put;
+      return post;
     }()
   }, {
-    key: "post",
+    key: "patch",
     value: function () {
-      var _post = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7(apiUrl, object) {
+      var _patch = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7(apiUrl, id, object) {
         var url;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                url = this.urlBase() + apiUrl + "/";
+                url = this.urlBase() + apiUrl + "/" + id + "/";
                 _context7.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url, object, this.axiosConf());
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.patch(url, object, this.axiosConf());
 
               case 3:
                 return _context7.abrupt("return", _context7.sent);
@@ -53009,37 +53101,7 @@ var axiosConnection = /*#__PURE__*/function () {
         }, _callee7, this);
       }));
 
-      function post(_x12, _x13) {
-        return _post.apply(this, arguments);
-      }
-
-      return post;
-    }()
-  }, {
-    key: "patch",
-    value: function () {
-      var _patch = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8(apiUrl, id, object) {
-        var url;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
-          while (1) {
-            switch (_context8.prev = _context8.next) {
-              case 0:
-                url = this.urlBase() + apiUrl + "/" + id + "/";
-                _context8.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.patch(url, object, this.axiosConf());
-
-              case 3:
-                return _context8.abrupt("return", _context8.sent);
-
-              case 4:
-              case "end":
-                return _context8.stop();
-            }
-          }
-        }, _callee8, this);
-      }));
-
-      function patch(_x14, _x15, _x16) {
+      function patch(_x13, _x14, _x15) {
         return _patch.apply(this, arguments);
       }
 
@@ -53051,7 +53113,6 @@ var axiosConnection = /*#__PURE__*/function () {
 }();
 
 /* harmony default export */ __webpack_exports__["default"] = (new axiosConnection());
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../node_modules/process/browser.js */ "./node_modules/process/browser.js")))
 
 /***/ }),
 
@@ -53105,7 +53166,8 @@ var projects = {
   state: {
     projects: {},
     project: {},
-    apiUrl: []
+    apiUrl: 'projects/',
+    message: false
   },
   mutations: {
     setProjects: function setProjects(state, data) {
@@ -53113,33 +53175,44 @@ var projects = {
     },
     setProject: function setProject(state, data) {
       state.project = data;
+    },
+    setMessage: function setMessage(state, data) {
+      state.message = data;
     }
   },
   actions: {
-    fetchTasks: function fetchTasks(_ref, parameters) {
-      var state = _ref.state,
-          commit = _ref.commit;
-      var urlBase = "/api/findProjectByName/" + parameters;
-      axios.get(urlBase).then(function (response) {
-        commit("setProjects", response.data, state.headers);
+    fetchAll: function fetchAll(_ref, id) {
+      var commit = _ref.commit,
+          state = _ref.state;
+      var urlBase = state.apiUrl;
+      var data = _axiosConnection_js__WEBPACK_IMPORTED_MODULE_1__["default"].getAll(urlBase);
+      data.then(function (resp) {
+        commit("setProjects", resp.data);
       });
+      return data;
     },
-    fetchAccount: function fetchAccount(_ref2, id) {
+    fetchById: function fetchById(_ref2, id) {
+      var state = _ref2.state;
+      var urlBase = state.apiUrl;
+      data = _axiosConnection_js__WEBPACK_IMPORTED_MODULE_1__["default"].getById(urlBase, id).then(function (resp) {
+        commit("setProject", resp.data);
+      });
+      return data;
+    },
+    fetchByName: function fetchByName(_ref3, parameters) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var commit, state, data;
+        var state, commit, urlBase;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                commit = _ref2.commit, state = _ref2.state;
-                data = _axiosConnection_js__WEBPACK_IMPORTED_MODULE_1__["default"].getById(state.apiUrl, id);
+                state = _ref3.state, commit = _ref3.commit;
+                urlBase = state.apiUrl + "search";
                 _context.next = 4;
-                return data.then(function (resp) {
-                  commit("setProjects", resp.data);
-                });
+                return _axiosConnection_js__WEBPACK_IMPORTED_MODULE_1__["default"].getByFilter(urlBase, parameters);
 
               case 4:
-                return _context.abrupt("return", data);
+                return _context.abrupt("return", _context.sent);
 
               case 5:
               case "end":
@@ -53149,38 +53222,32 @@ var projects = {
         }, _callee);
       }))();
     },
-    fetchAccountList: function fetchAccountList(_ref3) {
-      var commit = _ref3.commit,
-          state = _ref3.state;
-      var data = _axiosConnection_js__WEBPACK_IMPORTED_MODULE_1__["default"].getAll(state.apiUrl);
-      data.then(function (resp) {
-        commit("setProjects", resp.data);
-      });
-    },
-    fetchActiveAccounts: function fetchActiveAccounts(_ref4, data) {
-      var commit = _ref4.commit;
-      commit("setProjects", data);
-    },
-    deleteAccount: function deleteAccount(_ref5, id) {
-      var state = _ref5.state;
-      var data = _axiosConnection_js__WEBPACK_IMPORTED_MODULE_1__["default"]["delete"](state.apiUrl, id);
+    deleteProject: function deleteProject(_ref4, id) {
+      var state = _ref4.state;
+      var urlBase = state.apiUrl + "delete";
+      var data = _axiosConnection_js__WEBPACK_IMPORTED_MODULE_1__["default"]["delete"](urlBase, id);
       return data;
     },
-    postAccount: function postAccount(_ref6, dataObject) {
-      var state = _ref6.state;
-      return _axiosConnection_js__WEBPACK_IMPORTED_MODULE_1__["default"].post(state.apiUrl, dataObject);
+    putProject: function putProject(_ref5, dataObject) {
+      var state = _ref5.state;
+      var urlBase = state.apiUrl + "update";
+      return _axiosConnection_js__WEBPACK_IMPORTED_MODULE_1__["default"].post(urlBase, dataObject);
     },
-    putAccount: function putAccount(_ref7, dataObject) {
-      var state = _ref7.state;
-      return _axiosConnection_js__WEBPACK_IMPORTED_MODULE_1__["default"].put(state.apiUrl, dataObject.id, dataObject.obj);
+    postProject: function postProject(_ref6, dataObject) {
+      var state = _ref6.state;
+      var urlBase = state.apiUrl + "add";
+      return _axiosConnection_js__WEBPACK_IMPORTED_MODULE_1__["default"].post(urlBase, dataObject);
     }
   },
   getters: {
-    getAccount: function getAccount(state) {
-      return state.account;
+    getProjects: function getProjects(state) {
+      return state.projects;
     },
-    getAccountList: function getAccountList(state) {
-      return state.accountList;
+    getProject: function getProject(state) {
+      return state.project;
+    },
+    getMessage: function getMessage(state) {
+      return state.message;
     }
   }
 };
@@ -53220,8 +53287,8 @@ var LOGGED_USER = 'LOGGED_USER';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /mnt/c/Users/eduar/OneDrive/Proyectos/coding-challenge/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /mnt/c/Users/eduar/OneDrive/Proyectos/coding-challenge/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/edd/Projects/coodingChallenge/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/edd/Projects/coodingChallenge/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

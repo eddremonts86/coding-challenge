@@ -18,4 +18,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('findProjectByName/{name}', 'ProjectController@findByName');
+
+ 
+
+Route::get('/projects/search/{name}', 'ProjectController@findByName');
+Route::get('/projects/{id}', 'ProjectController@show');
+Route::post('/projects/add', 'ProjectController@add');
+Route::post('/projects/update', 'ProjectController@update');
+Route::post('/projects/delete', 'ProjectController@update');

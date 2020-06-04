@@ -4,7 +4,8 @@ const projects = {
     state: {
         projects : {},
         project:{},
-        apiUrl: [],
+        apiUrl: 'projects/',
+        message: false,
 
     },
     mutations: {
@@ -13,53 +14,71 @@ const projects = {
         },
         setProject(state, data) {
             state.project = data;
+        },
+        setMessage(state, data) {
+            state.message = data;
         }
     },
     actions: {
 
-        fetchTasks({state, commit}, parameters) {
-            const urlBase = "/api/findProjectByName/" + parameters;
-            axios.get(urlBase).then(response => {
-                commit("setProjects", response.data, state.headers);
-            });
-        },
-        async fetchAccount({ commit, state }, id) {
-            let data = axiosConnection.getById(state.apiUrl, id);
-            await data.then(resp => {
-                commit("setProjects", resp.data);
-            });
-            return data;
-        },
-        fetchAccountList({ commit, state }) {
-            let data = axiosConnection.getAll(state.apiUrl);
+
+        fetchAll({ commit, state }, id) {
+            const urlBase = state.apiUrl;
+            let data = axiosConnection.getAll(urlBase);
             data.then(resp => {
                 commit("setProjects", resp.data);
             });
-        },
-        fetchActiveAccounts({ commit }, data) {
-            commit("setProjects", data);
-        },
-        deleteAccount({ state }, id) {
-            let data = axiosConnection.delete(state.apiUrl, id);
             return data;
         },
-        postAccount({ state }, dataObject) {
-            return axiosConnection.post(state.apiUrl, dataObject);
+
+        fetchById({ state }, id) {
+            const urlBase = state.apiUrl;
+            data = axiosConnection.getById(urlBase, id).then(resp => {
+                commit("setProject", resp.data);
+            });
+            return data;
         },
-        putAccount({ state }, dataObject) {
-            return axiosConnection.put(
-                state.apiUrl,
-                dataObject.id,
-                dataObject.obj
+
+        async fetchByName({state, commit}, parameters) {
+            const urlBase = state.apiUrl + "search";
+            return await axiosConnection.getByFilter(urlBase, parameters);
+
+        },
+
+        deleteProject({ state }, id) {
+            const urlBase = state.apiUrl + "delete";
+            let data = axiosConnection.delete(urlBase, id);
+            return data;
+        },
+
+        putProject({ state }, dataObject) {
+            const urlBase = state.apiUrl + "update";
+            return axiosConnection.post(
+                urlBase,
+                dataObject
+            );
+        },
+
+        postProject({ state }, dataObject) {
+            const urlBase = state.apiUrl + "add";
+            return axiosConnection.post(
+                urlBase,
+                dataObject,
             );
         }
+
+
+
     },
     getters: {
-        getAccount(state) {
-            return state.account;
+        getProjects(state) {
+            return state.projects;
         },
-        getAccountList(state) {
-            return state.accountList;
+        getProject(state) {
+            return state.project;
+        },
+        getMessage(state) {
+            return state.message;
         },
 
     }
