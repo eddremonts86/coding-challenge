@@ -47,11 +47,15 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
 export default {
     data: () => ({
         projectName: "",
         valid: true
     }),
+     computed: {
+            ...mapActions(['fetchTasks'])
+        },
     methods: {
         open() {
             $(this.$refs.modal).modal("show");
@@ -69,7 +73,7 @@ export default {
             }
         },
         validateProjectName() {
-            axios.get("/api/findProjectByName/" + this.projectName )
+            this.fetchTasks(this.projectName)
             .then(function () {
 
             }).catch(function (error) {

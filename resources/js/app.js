@@ -27,7 +27,17 @@ Vue.component('projects', require('./components/Projects.vue').default);
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+import store from './store'
+import * as mutations from './store/mutation-types'
+import * as actions from './store/action-types'
+
+if (window.user) {
+    store.commit(mutations.LOGGED_USER, window.user)
+    } else {
+    store.dispatch(actions.LOGGED_USER)
+    }
 
 const app = new Vue({
     el: '#app',
+    store
 });
