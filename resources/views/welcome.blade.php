@@ -75,9 +75,9 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ url('/home') }}" data-cy="cy-home">Home</a>
                     @else
-                        <a href="{{ route('login') }}">Login</a>
+                        <a href="{{ route('login') }}" data-cy="cy-login">Login</a>
 
                         @if (Route::has('register'))
                             <a class="disabled" href="{{ route('register') }}">Register</a>

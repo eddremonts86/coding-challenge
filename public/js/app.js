@@ -1969,6 +1969,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2063,6 +2065,8 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
 //
 //
 //
@@ -2329,6 +2333,11 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
 //
 //
 //
@@ -42707,7 +42716,8 @@ var render = function() {
                 attrs: {
                   type: "text",
                   name: "project_name",
-                  id: "project_name"
+                  id: "project_name",
+                  "data-cy": "cy-projectName"
                 },
                 domProps: { value: _vm.projectName },
                 on: {
@@ -42728,7 +42738,10 @@ var render = function() {
               "button",
               {
                 staticClass: "btn btn-secondary",
-                attrs: { type: "button" },
+                attrs: {
+                  type: "button",
+                  "data-cy": "cy-projectAddProjectButtonCancel"
+                },
                 on: {
                   click: function($event) {
                     $event.preventDefault()
@@ -42743,7 +42756,11 @@ var render = function() {
               "button",
               {
                 staticClass: "btn btn-success",
-                attrs: { type: "button", disabled: _vm.getMessage },
+                attrs: {
+                  type: "button",
+                  disabled: _vm.getMessage,
+                  "data-cy": "cy-projectAddProjectButtonSave"
+                },
                 on: {
                   click: function($event) {
                     $event.preventDefault()
@@ -42850,7 +42867,8 @@ var render = function() {
                 attrs: {
                   type: "text",
                   name: "project_name",
-                  id: "project_name"
+                  id: "project_name",
+                  "data-cy": "cy-EditProject"
                 },
                 domProps: { value: _vm.projectName },
                 on: {
@@ -42886,7 +42904,11 @@ var render = function() {
               "button",
               {
                 staticClass: "btn btn-success",
-                attrs: { type: "button", disabled: _vm.getMessage },
+                attrs: {
+                  type: "button",
+                  disabled: _vm.getMessage,
+                  "data-cy": "cy-projectEditProjectSave"
+                },
                 on: {
                   click: function($event) {
                     $event.preventDefault()
@@ -43097,7 +43119,7 @@ var render = function() {
                   "button",
                   {
                     staticClass: "btn btn-sm btn-success",
-                    attrs: { type: "button" },
+                    attrs: { type: "button", "data-cy": "cy-addProject" },
                     on: {
                       click: function($event) {
                         $event.preventDefault()
@@ -43121,7 +43143,13 @@ var render = function() {
                 _vm._l(_vm.getProjects.data, function(project) {
                   return _c("tr", { key: project.id }, [
                     _c("td", {
-                      domProps: { textContent: _vm._s(project.name) }
+                      domProps: { textContent: _vm._s(project.name) },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.editProject(project)
+                        }
+                      }
                     }),
                     _vm._v(" "),
                     _c("td", {
@@ -43137,7 +43165,10 @@ var render = function() {
                         "button",
                         {
                           staticClass: "btn btn-sm btn-dark",
-                          attrs: { type: "button" },
+                          attrs: {
+                            type: "button",
+                            "data-cy": "cy-edit-" + project.name
+                          },
                           on: {
                             click: function($event) {
                               $event.preventDefault()
@@ -43152,7 +43183,10 @@ var render = function() {
                         "a",
                         {
                           staticClass: "btn btn-sm btn-secondary",
-                          attrs: { href: "/projects/" + project.id }
+                          attrs: {
+                            href: "/projects/" + project.id,
+                            "data-cy": "cy-ditails-" + project.name
+                          }
                         },
                         [_vm._v("Details")]
                       ),
@@ -43161,7 +43195,10 @@ var render = function() {
                         "button",
                         {
                           staticClass: "btn btn-sm btn-danger",
-                          attrs: { type: "button" },
+                          attrs: {
+                            type: "button",
+                            "data-cy": "cy-delete-" + project.name
+                          },
                           on: {
                             click: function($event) {
                               $event.preventDefault()
@@ -43196,7 +43233,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-10" }, [
-      _c("h4", [_vm._v("Projects")])
+      _c("h4", { attrs: { "data-cy": "cy-projects" } }, [_vm._v("Projects")])
     ])
   },
   function() {

@@ -1,0 +1,14 @@
+{
+  "name": "codetest",
+  "version": "1.0.0",
+  "description": "Cypress Test ",
+  "main": "index.js",
+  "scripts": {
+    "cypress:open": "cypress open"
+  },
+  "author": "Edd Remonts",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^4.7.0"
+  }
+}

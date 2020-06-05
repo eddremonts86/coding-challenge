@@ -4,7 +4,7 @@
       <div class="card-header">
         <div class="row">
           <div class="col-10">
-            <h4>Projects</h4>
+            <h4 data-cy="cy-projects">Projects</h4>
           </div>
           <div class="col-2">
             <div class="text-right">
@@ -12,6 +12,7 @@
                 type="button"
                 class="btn btn-sm btn-success"
                 @click.prevent="addProject"
+                data-cy="cy-addProject"
               >Add project</button>
             </div>
           </div>
@@ -29,19 +30,23 @@
 
         <tbody v-if="getProjects">
           <tr v-for="project in getProjects.data"   :key="project.id">
-            <td v-text="project.name"></td>
+            <td v-text="project.name"  @click.prevent="editProject(project)"></td>
             <td v-text="project.entries"></td>
            <td v-text="project.TotalHours"></td>
             <td class="text-right">
               <button
                 type="button"
                 class="btn btn-sm btn-dark"
+                :data-cy="`cy-edit-${project.name}`"
                 @click.prevent="editProject(project)"
               >Edit</button>
-              <a :href="`/projects/${project.id}`" class="btn btn-sm btn-secondary">Details</a>
+
+              <a :href="`/projects/${project.id}`" :data-cy="`cy-ditails-${project.name}`" class="btn btn-sm btn-secondary">Details</a>
+
               <button
                 type="button"
                 class="btn btn-sm btn-danger"
+                :data-cy="`cy-delete-${project.name}`"
                 @click.prevent="deleteProjectById(project.id , project.name )"
               >Delete</button>
             </td>

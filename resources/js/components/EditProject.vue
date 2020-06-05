@@ -19,6 +19,7 @@
               name="project_name"
               id="project_name"
               class="form-control"
+             data-cy="cy-EditProject"
               v-model="projectName"
               @keyup="validateProjectName"
             />
@@ -31,6 +32,7 @@
             class="btn btn-success"
             @click.prevent="submit"
             :disabled="getMessage"
+data-cy="cy-projectEditProjectSave"
           >Save project</button>
         </div>
       </div>

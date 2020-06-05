@@ -20,18 +20,20 @@
               name="project_name"
               id="project_name"
               class="form-control"
+              data-cy="cy-projectName"
               v-model="projectName"
               @keyup="validateProjectName"
             />
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" @click.prevent="closeModal">Cancel</button>
+          <button type="button" class="btn btn-secondary"  data-cy="cy-projectAddProjectButtonCancel" @click.prevent="closeModal">Cancel</button>
           <button
             type="button"
             class="btn btn-success"
             @click.prevent="submit"
             :disabled="getMessage"
+            data-cy="cy-projectAddProjectButtonSave"
           >Save project</button>
         </div>
       </div>
