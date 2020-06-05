@@ -51,7 +51,7 @@ export default {
     ...mapGetters(["getMessage"])
   },
   methods: {
-    ...mapActions(["fetchByName", "putProject"]),
+    ...mapActions(["fetchByName", "putProject",'fetchAll']),
     ...mapMutations(["setMessage"]),
     open(project) {
       this.project = project;
@@ -66,11 +66,11 @@ export default {
     this.putProject({
         id: this.project.id,
         name: this.projectName
-      })
+      }).finally(() => this.fetchAll());
       $(this.$refs.modal).modal("hide");
     },
     validateProjectName() {
-      if (this.projectName.length > 0 && str.trim(this.project.name) !== this.projectName) {
+       if (this.projectName.length > 0) {
         this.fetchByName(this.projectName)
           .then(response => {
             let test = response.data.data;

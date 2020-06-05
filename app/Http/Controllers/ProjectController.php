@@ -12,11 +12,31 @@ class ProjectController extends Controller
         //$this->middleware('auth');
     }
 
+
+    public function all(Request $request)
+    {
+        $projects = Project::all();
+        foreach ($projects as &$project) {
+            $entry = Project::with('entries')->find($project->id);
+            $project->entries = count($entry->entries);
+            $project = $project->TotalHours = count($entry->entries);
+        }
+        return response()->json(['data' => $projects]);
+    }
+
     public function show(int $projectID)
     {
         $project = Project::with('entries')->find($projectID);
         return view('projects.show', ['project' => $project]);
     }
+
+
+    public function showAPI(int $projectID)
+    {
+        $project = Project::with('entries')->find($projectID);
+        return response()->json(['data' => $project]);
+    }
+
 
     public function add(Request $request)
     {
@@ -35,10 +55,9 @@ class ProjectController extends Controller
     }
 
     public function findByName($projectName)
-    {    
+    {
         $project = Project::where('name', '=', $projectName)->take(1)->get();
-         return response()->json(['data' => $project]);
-            
+        return response()->json(['data' => $project]);
     }
     public function delete(Request $request)
     {
@@ -46,5 +65,4 @@ class ProjectController extends Controller
         $project->delete();
         return response()->json(['status' => 'success']);
     }
-
 }

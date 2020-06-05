@@ -48,7 +48,7 @@ export default {
   }),
   computed: { ...mapGetters(["getMessage"]) },
   methods: {
-    ...mapActions(["fetchByName", "postProject"]),
+    ...mapActions(["fetchByName", "postProject","fetchAll"]),
     ...mapMutations(["setMessage"]),
     open() {
       $(this.$refs.modal).modal("show");
@@ -67,7 +67,10 @@ export default {
               .catch(error => {
                 console.log(error);
               })
-              .finally(() => $(vm.$refs.modal).modal("hide"));
+              .finally(() => {
+                      $(vm.$refs.modal).modal("hide")
+                      this.fetchAll();
+                      });
           } else {
             this.setMessage(true);
           }
