@@ -47,8 +47,10 @@
         </tr>
       </tbody>
       <tfoot>
-        <tr><td colspan="4">
-          <a type="button" class="btn btn-sm btn-none" href="/home">Go back</a></td>
+        <tr>
+          <td colspan="4">
+            <a type="button" class="btn btn-sm btn-none" href="/home">Go back</a>
+          </td>
         </tr>
       </tfoot>
     </table>
@@ -67,7 +69,7 @@ export default {
   }),
   mixins: [globalMixin],
   computed: {
-    ...mapGetters(["getProject","getAlertState"])
+    ...mapGetters(["getProject", "getAlertState"])
   },
   created() {
     this.fetchById(this.project.id);
@@ -85,8 +87,14 @@ export default {
       this.fetchById(this.project.id);
     },
     deleteEntry(id) {
-      this.entryDelete({ id: id });
-      this.fetchById(this.getProject.id);
+      let vue = this;
+      this.delete("entry", id).finally(() => {
+        if (!this.getAlertState) {
+          return true;
+        }
+        this.entryDelete({ id: id });
+        this.fetchById(this.getProject.id);
+      });
     },
     isClosed() {
       if (this.getProject.entries.length > 0) {

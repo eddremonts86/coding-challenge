@@ -2252,6 +2252,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2282,10 +2284,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.fetchById(this.project.id);
     },
     deleteEntry: function deleteEntry(id) {
-      this.entryDelete({
-        id: id
+      var _this = this;
+
+      var vue = this;
+      this["delete"]("entry", id)["finally"](function () {
+        if (!_this.getAlertState) {
+          return true;
+        }
+
+        _this.entryDelete({
+          id: id
+        });
+
+        _this.fetchById(_this.getProject.id);
       });
-      this.fetchById(this.getProject.id);
     },
     isClosed: function isClosed() {
       if (this.getProject.entries.length > 0) {
@@ -56955,11 +56967,11 @@ var globalMixin = {
         if (result.value) {
           _this.fetchAlertState(true);
 
-          _this.$swal.fire("Deleted!", "Your " + target + " has been deleted.", "success");
+          _this.$swal("Deleted!", "Your " + target + " has been deleted.", "success");
         } else if (result.dismiss === _this.$swal.DismissReason.cancel) {
           _this.fetchAlertState(false);
 
-          _this.$swal.fire("Cancelled", "Your " + target + " item is safe.", "error");
+          _this.$swal("Cancelled", "Your " + target + " item is safe.", "error");
         }
       });
     },
@@ -57404,8 +57416,10 @@ var entry = {
       return _axios_axiosConnection_js__WEBPACK_IMPORTED_MODULE_0__["default"].post(urlBase, dataObject);
     },
     entryDelete: function entryDelete(_ref3, dataObject) {
-      var state = _ref3.state;
+      var state = _ref3.state,
+          commit = _ref3.commit;
       var urlBase = state.apiUrl + "delete";
+      commit("setAlertState", false);
       return _axios_axiosConnection_js__WEBPACK_IMPORTED_MODULE_0__["default"].post(urlBase, dataObject);
     }
   },

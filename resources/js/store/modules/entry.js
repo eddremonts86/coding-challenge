@@ -16,8 +16,9 @@ const entry = {
             return axiosConnection.post(urlBase, dataObject);
         },
 
-        entryDelete({ state }, dataObject) {
+        entryDelete({ state, commit }, dataObject) {
             const urlBase = state.apiUrl + "delete";
+            commit("setAlertState", false);
             return axiosConnection.post(urlBase, dataObject);
         }
     },

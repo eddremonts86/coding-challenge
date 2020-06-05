@@ -21,7 +21,7 @@ const globalMixin = {
                 .then(result => {
                     if (result.value) {
                         this.fetchAlertState(true);
-                        this.$swal.fire(
+                        this.$swal(
                             "Deleted!",
                             "Your " + target + " has been deleted.",
                             "success"
@@ -29,7 +29,7 @@ const globalMixin = {
                     }
                     else if (result.dismiss === this.$swal.DismissReason.cancel) {
                         this.fetchAlertState(false);
-                        this.$swal.fire(
+                        this.$swal(
                             "Cancelled",
                             "Your " + target + " item is safe.",
                             "error"
