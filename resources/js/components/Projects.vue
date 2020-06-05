@@ -42,7 +42,7 @@
               <button
                 type="button"
                 class="btn btn-sm btn-danger"
-                @click.prevent="deleteProjectById(project.id)"
+                @click.prevent="deleteProjectById(project.id , project.name )"
               >Delete</button>
             </td>
           </tr>
@@ -58,6 +58,8 @@
 import AddProject from "./AddProject";
 import EditProject from "./EditProject";
 import { mapActions, mapGetters } from "vuex";
+import globalMixin from "../mixins/globalMixin.js";
+
 export default {
   name: "Projects",
  props: ['projects'],
@@ -65,8 +67,9 @@ export default {
     "add-project": AddProject,
     "edit-project": EditProject
   },
+  mixins: [globalMixin],
   computed: {
-    ...mapGetters(["getProjects"])
+    ...mapGetters(["getProjects","getAlertState"])
   },
   created() {
     this.fetchAll();
@@ -79,17 +82,34 @@ export default {
     editProject(project) {
       this.$refs.edit.open(project);
     },
-    deleteProjectById(id) {
-      this.deleteProject({ id: id })
-        .then(response => {
-          //mostrar
-        })
-        .catch(error => {
-          console.log(error);
-          this.errored = true;
-        })
-        .finally(() => this.fetchAll());
-    }
-  }
+    deleteProjectById(id,name) {
+      let vue=this;
+
+      this.delete("projetc", name).finally(() => {
+        if (!this.getAlertState) {return true;}
+        this.deleteProject({ id: id })
+        .then(function(response) {
+            if (response) {
+               vue.$swal({
+                title: "Deleted Project!",
+                text: "Operation has been done!",
+                type: "success"
+              });
+            }
+          })
+          .catch(function(error) {
+            vue.$swal({
+              title: "Problem with deleting the project",
+              text: error,
+              type: "error"
+            });
+          })
+        .finally(() => {
+             this.fetchAll()}
+            );
+
+    });
+   }
+ }
 };
 </script>

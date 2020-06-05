@@ -1,4 +1,4 @@
-import axiosConnection from "../axiosConnection.js";
+import axiosConnection from "../axios/axiosConnection.js";
 
 const projects = {
     state: {
@@ -40,9 +40,10 @@ const projects = {
             return await axiosConnection.getByFilter(urlBase, parameters);
         },
 
-        deleteProject({ state }, dataObject) {
+        deleteProject({ state, commit }, dataObject) {
             const urlBase = state.apiUrl + "delete";
             let data = axiosConnection.delete(urlBase, dataObject);
+            commit("setAlertState", false);
             return data;
         },
 

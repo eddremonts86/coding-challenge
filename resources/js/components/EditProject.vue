@@ -26,7 +26,12 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" @click.prevent="closeModal">Cancel</button>
-          <button type="button" class="btn btn-success" @click.prevent="submit" :disabled="getMessage">Save project</button>
+          <button
+            type="button"
+            class="btn btn-success"
+            @click.prevent="submit"
+            :disabled="getMessage"
+          >Save project</button>
         </div>
       </div>
     </div>
@@ -51,7 +56,7 @@ export default {
     ...mapGetters(["getMessage"])
   },
   methods: {
-    ...mapActions(["fetchByName", "putProject",'fetchAll']),
+    ...mapActions(["fetchByName", "putProject", "fetchAll"]),
     ...mapMutations(["setMessage"]),
     open(project) {
       this.project = project;
@@ -63,14 +68,33 @@ export default {
       this.projectName = "";
     },
     submit() {
-    this.putProject({
+ const vm = this;
+      this.putProject({
         id: this.project.id,
         name: this.projectName
-      }).finally(() => this.fetchAll());
+      })
+        .then(function(response) {
+          if (response) {
+            vm.$swal({
+              title: "Edited Project!",
+              text: "Operation has been done!",
+              type: "success"
+            });
+          }
+        })
+        .catch(function(error) {
+          vm.$swal({
+            title: "Problem with editing the project",
+            text: error,
+            type: "error"
+          });
+        })
+
+        .finally(() => this.fetchAll());
       $(this.$refs.modal).modal("hide");
     },
     validateProjectName() {
-       if (this.projectName.length > 0) {
+      if (this.projectName.length > 0) {
         this.fetchByName(this.projectName)
           .then(response => {
             let test = response.data.data;

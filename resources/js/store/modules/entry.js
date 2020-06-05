@@ -1,4 +1,4 @@
-import axiosConnection from "../axiosConnection.js";
+import axiosConnection from "../axios/axiosConnection.js";
 
 const entry = {
     state: {

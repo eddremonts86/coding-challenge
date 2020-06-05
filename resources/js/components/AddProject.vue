@@ -43,7 +43,6 @@
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import globalMixin from "../mixins/globalMixin.js";
 
-
 export default {
   data: () => ({
     projectName: "",
@@ -52,7 +51,7 @@ export default {
   mixins: [globalMixin],
   computed: { ...mapGetters(["getMessage"]) },
   methods: {
-    ...mapActions(["fetchByName", "postProject","fetchAll"]),
+    ...mapActions(["fetchByName", "postProject", "fetchAll"]),
     ...mapMutations(["setMessage"]),
     open() {
       $(this.$refs.modal).modal("show");
@@ -68,13 +67,26 @@ export default {
           let test = response.data.data;
           if (!test[0]) {
             this.postProject({ name: this.projectName })
-              .catch(error => {
-                console.log(error);
+              .then(function(response) {
+                if (response) {
+                  vm.$swal({
+                    title: "Added Project!",
+                    text: "Operation has been done!",
+                    type: "success"
+                  });
+                }
+              })
+              .catch(function(error) {
+                vm.$swal({
+                  title: "Problem with adding the project",
+                  text: error,
+                  type: "error"
+                });
               })
               .finally(() => {
-                      $(vm.$refs.modal).modal("hide")
-                      this.fetchAll();
-                      });
+                $(vm.$refs.modal).modal("hide");
+                this.fetchAll();
+              });
           } else {
             this.setMessage(true);
           }

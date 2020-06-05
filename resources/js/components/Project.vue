@@ -56,6 +56,7 @@
 </template>
 
 <script>
+import globalMixin from "../mixins/globalMixin.js";
 import { mapActions, mapGetters } from "vuex";
 export default {
   name: "Project",
@@ -64,8 +65,9 @@ export default {
     start: 0,
     end: 0
   }),
+  mixins: [globalMixin],
   computed: {
-    ...mapGetters(["getProject"])
+    ...mapGetters(["getProject","getAlertState"])
   },
   created() {
     this.fetchById(this.project.id);

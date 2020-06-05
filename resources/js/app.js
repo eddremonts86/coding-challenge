@@ -31,6 +31,15 @@ import store from './store'
 import * as mutations from './store/mutation-types'
 import * as actions from './store/action-types'
 
+
+
+import VueSweetalert2 from "vue-sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
+Vue.use(VueSweetalert2, {
+    confirmButtonColor: "#1f4aff",
+    cancelButtonColor: "#C62828"
+  });
+
 if (window.user) {
     store.commit(mutations.LOGGED_USER, window.user)
     } else {
