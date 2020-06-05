@@ -18,6 +18,8 @@ class CreateEntriesTable extends Migration
             $table->dateTime('start');
             $table->dateTime('end');
             $table->unsignedBigInteger('project_id');
+            $table->string('total');
+            $table->boolean('status');
             $table->timestamps();
         });
     }
@@ -25,7 +27,7 @@ class CreateEntriesTable extends Migration
     /**
      * Reverse the migrations.
      *
-     * @return void
+     * @return voidclear
      */
     public function down()
     {

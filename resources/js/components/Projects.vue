@@ -31,10 +31,7 @@
           <tr v-for="project in getProjects.data"   :key="project.id">
             <td v-text="project.name"></td>
             <td v-text="project.entries"></td>
-            <td>
-              <!-- TODO: Calculate total hours spent -->
-              0 hours
-            </td>
+           <td v-text="project.TotalHours"></td>
             <td class="text-right">
               <button
                 type="button"

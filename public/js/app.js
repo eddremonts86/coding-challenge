@@ -2198,13 +2198,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Project",
-  props: ['project'],
+  props: ["project"],
   data: function data() {
     return {
-      running: false,
       start: 0,
       end: 0
     };
@@ -2213,9 +2230,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   created: function created() {
     this.fetchById(this.project.id);
   },
-  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['putEntry', 'postEntry', 'entryDelete', 'fetchById'])), {}, {
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["putEntry", "postEntry", "entryDelete", "fetchById"])), {}, {
     startTimer: function startTimer() {
-      this.running = true;
       this.postEntry({
         projectId: this.getProject.id
       });
@@ -2225,7 +2241,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.putEntry({
         id: this.getProject.entries[this.getProject.entries.length - 1].id
       });
-      this.running = false;
       this.fetchById(this.project.id);
     },
     deleteEntry: function deleteEntry(id) {
@@ -2233,6 +2248,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         id: id
       });
       this.fetchById(this.getProject.id);
+    },
+    isClosed: function isClosed() {
+      if (this.getProject.entries.length > 0) {
+        var length = this.getProject.entries.length - 1;
+        return this.getProject.entries[length].status ? true : false;
+      } else return false;
     }
   })
 });
@@ -2257,9 +2278,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
-//
 //
 //
 //
@@ -39031,53 +39049,55 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "col-2" }, [
-          _c("div", { staticClass: "text-right" }, [
-            _c(
-              "button",
-              {
-                directives: [
+          _vm.getProject
+            ? _c("div", { staticClass: "text-right" }, [
+                _c(
+                  "button",
                   {
-                    name: "show",
-                    rawName: "v-show",
-                    value: _vm.running,
-                    expression: "running"
-                  }
-                ],
-                staticClass: "btn btn-sm btn-danger",
-                attrs: { type: "button" },
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.stopTimer($event)
-                  }
-                }
-              },
-              [_vm._v("Stop")]
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                directives: [
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.isClosed(),
+                        expression: "isClosed()"
+                      }
+                    ],
+                    staticClass: "btn btn-sm btn-danger",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.stopTimer($event)
+                      }
+                    }
+                  },
+                  [_vm._v("Stop")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
                   {
-                    name: "show",
-                    rawName: "v-show",
-                    value: !_vm.running,
-                    expression: "!running"
-                  }
-                ],
-                staticClass: "btn btn-sm btn-success",
-                attrs: { type: "button" },
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.startTimer($event)
-                  }
-                }
-              },
-              [_vm._v("Start")]
-            )
-          ])
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: !_vm.isClosed(),
+                        expression: "!isClosed()"
+                      }
+                    ],
+                    staticClass: "btn btn-sm btn-success",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.startTimer($event)
+                      }
+                    }
+                  },
+                  [_vm._v("Start")]
+                )
+              ])
+            : _vm._e()
         ])
       ])
     ]),
@@ -39089,20 +39109,18 @@ var render = function() {
         ? _c(
             "tbody",
             _vm._l(_vm.getProject.entries, function(entry) {
-              return _c("tr", [
+              return _c("tr", { key: entry.id }, [
                 _c("td", { domProps: { textContent: _vm._s(entry.start) } }),
                 _vm._v(" "),
                 _c("td", { domProps: { textContent: _vm._s(entry.end) } }),
                 _vm._v(" "),
-                _c("td", [
-                  _vm._v("\n                    0 hours\n                ")
-                ]),
+                _c("td", { domProps: { textContent: _vm._s(entry.total) } }),
                 _vm._v(" "),
                 _c("td", [
                   _c(
                     "button",
                     {
-                      staticClass: "btn btn-sm btn-success",
+                      staticClass: "btn btn-sm btn-danger",
                       attrs: { type: "button" },
                       on: {
                         click: function($event) {
@@ -39118,7 +39136,9 @@ var render = function() {
             }),
             0
           )
-        : _vm._e()
+        : _vm._e(),
+      _vm._v(" "),
+      _vm._m(1)
     ])
   ])
 }
@@ -39133,9 +39153,28 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("End date")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Time spent")]),
+        _c("th", [_vm._v("Time spent (H:m:s)")]),
         _vm._v(" "),
         _c("th")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tfoot", [
+      _c("tr", [
+        _c("td", { attrs: { colspan: "4" } }, [
+          _c(
+            "a",
+            {
+              staticClass: "btn btn-sm btn-none",
+              attrs: { type: "button", href: "/home" }
+            },
+            [_vm._v("Go back")]
+          )
+        ])
       ])
     ])
   }
@@ -39206,7 +39245,9 @@ var render = function() {
                       domProps: { textContent: _vm._s(project.entries) }
                     }),
                     _vm._v(" "),
-                    _c("td", [_vm._v("\n            0 hours\n          ")]),
+                    _c("td", {
+                      domProps: { textContent: _vm._s(project.TotalHours) }
+                    }),
                     _vm._v(" "),
                     _c("td", { staticClass: "text-right" }, [
                       _c(

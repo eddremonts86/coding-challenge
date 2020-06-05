@@ -18,10 +18,10 @@ class ProjectController extends Controller
         $projects = Project::all();
         foreach ($projects as &$project) {
             $entry = Project::with('entries')->find($project->id);
+            $project->TotalHours = $this->totalHours($entry->entries);
             $project->entries = count($entry->entries);
-            $project = $project->TotalHours = count($entry->entries);
-        }
-        return response()->json(['data' => $projects]);
+         }
+         return response()->json(['data' => $projects]);
     }
 
     public function show(int $projectID)
@@ -64,5 +64,15 @@ class ProjectController extends Controller
         $project = Project::find($request->get('id'));
         $project->delete();
         return response()->json(['status' => 'success']);
+    }
+
+    public function totalHours($entries)
+    {
+        $total = 0;
+        foreach ($entries as &$entry) {
+            $time = explode( ':', $entry->total);
+            $total += intval($time[0]) + intval($time[1]) / 60 + intval($time[2]) / 3600;
+        }
+        return round($total, 2);
     }
 }
