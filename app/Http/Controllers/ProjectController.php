@@ -9,7 +9,6 @@ class ProjectController extends Controller
 {
     public function __construct()
     {
-        //$this->middleware('auth');
     }
 
 
@@ -18,10 +17,10 @@ class ProjectController extends Controller
         $projects = Project::all();
         foreach ($projects as &$project) {
             $entry = Project::with('entries')->find($project->id);
-            $project->TotalHours = $this->totalHours($entry->entries);
+            $project->TotalHours = count($entry->entries) > 0 ? $this->totalHours($entry->entries) : 0;
             $project->entries = count($entry->entries);
-         }
-         return response()->json(['data' => $projects]);
+        }
+        return response()->json(['data' => $projects]);
     }
 
     public function show(int $projectID)
@@ -67,10 +66,9 @@ class ProjectController extends Controller
     }
 
     public function totalHours($entries)
-    {
-        $total = 0;
+    {   $total = 0;
         foreach ($entries as &$entry) {
-            $time = explode( ':', $entry->total);
+            $time = explode(':', $entry->total);
             $total += intval($time[0]) + intval($time[1]) / 60 + intval($time[2]) / 3600;
         }
         return round($total, 2);

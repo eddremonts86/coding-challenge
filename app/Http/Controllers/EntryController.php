@@ -7,19 +7,16 @@ use Illuminate\Http\Request;
 
 class EntryController extends Controller
 {
-    public function __construct()
-    {
-        // $this->middleware('auth');
-    }
+    public function __construct(){}
 
     public function start(Request $request)
     {
         Entry::create([
             'project_id' => $request->get('projectId'),
-            'start' => date('Y:m:d H:i:s'),
-            'total' => 0,
+            'start' => now(),
+            'total' => "0:0:0",
             'status' => true,
-            'end' => date('Y:m:d H:i:s'),
+            'end' => null,
         ]);
         return response()->json(['status' => 'success']);
     }

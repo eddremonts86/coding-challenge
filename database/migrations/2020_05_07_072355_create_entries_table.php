@@ -16,11 +16,12 @@ class CreateEntriesTable extends Migration
         Schema::create('entries', function (Blueprint $table) {
             $table->id();
             $table->dateTime('start');
-            $table->dateTime('end');
+            $table->dateTime('end')->nullable();
             $table->unsignedBigInteger('project_id');
             $table->string('total');
             $table->boolean('status');
             $table->timestamps();
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
         });
     }
 

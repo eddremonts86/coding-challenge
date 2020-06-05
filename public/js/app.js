@@ -1921,6 +1921,7 @@ module.exports = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _mixins_globalMixin_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../mixins/globalMixin.js */ "./resources/js/mixins/globalMixin.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -1969,6 +1970,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1976,6 +1978,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       valid: true
     };
   },
+  mixins: [_mixins_globalMixin_js__WEBPACK_IMPORTED_MODULE_1__["default"]],
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(["getMessage"])),
   methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["fetchByName", "postProject", "fetchAll"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(["setMessage"])), {}, {
     open: function open() {
@@ -52984,6 +52987,68 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Projects_vue_vue_type_template_id_533b60e5___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/mixins/globalMixin.js":
+/*!********************************************!*\
+  !*** ./resources/js/mixins/globalMixin.js ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var globalMixin = {
+  methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["postIngredient"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(["setMessage"])), {}, {
+    "delete": function _delete(target, targetName) {
+      var _this = this;
+
+      return this.$swal.fire({
+        title: "Are you sure?",
+        text: "Do you want to delete the " + target + " called " + targetName + " ? ",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true
+      }).then(function (result) {
+        if (result.value) {
+          _this.$store.dispatch("fetchAlertState", true);
+
+          _this.$swal.fire("Deleted!", "Your " + target + " has been deleted.", "success");
+        } else if (result.dismiss === _this.$swal.DismissReason.cancel) {
+          _this.$store.dispatch("fetchAlertState", false);
+
+          _this.$swal.fire("Cancelled", "Your " + target + " item is safe.", "error");
+        }
+      });
+    },
+    info: function info(infoText, infoTitle) {
+      this.$swal({
+        title: infoTitle,
+        text: infoText,
+        type: "info"
+      });
+    },
+    error: function error(errorText, errorTitle) {
+      this.$swal({
+        title: errorTitle ? errorTitle : "You have an error",
+        text: errorText,
+        type: "error"
+      });
+    }
+  })
+};
+/* harmony default export */ __webpack_exports__["default"] = (globalMixin);
 
 /***/ }),
 

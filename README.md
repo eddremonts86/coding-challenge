@@ -16,9 +16,8 @@ For a GUI, Bob does not need much, but he must be able to see an overview of the
 
 ## Tasks:
 These objectives are mandatory:
-- If the user isn't logged in, all URLs should redirect to the login page.
-- New user registration should be disabled.
-- Make auth middleware global, instead of in constructors of controllers.
+
+
 
 ## Bonus:
 These objectives are optional:
@@ -26,10 +25,13 @@ These objectives are optional:
 
 ## Done:
 These objectives are mandatory:
+* New user registration should be disabled.
 * Verify project names are unique and display error when submitting existing name.
 * Calculate total hours spend on project and display in the overview.
 * Add functionality to support adding entries to projects.
 * It should be possible to delete entries and projects.
+* Make auth middleware global, instead of in constructors of controllers.
+* If the user isn't logged in, all URLs should redirect to the login page.
 
 These objectives are optional:
 * Improve existing code, if anything sticks out to you.

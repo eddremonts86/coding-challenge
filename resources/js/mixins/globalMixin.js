@@ -1,5 +1,5 @@
 import { mapActions, mapMutations } from "vuex";
-export const globalMixins = {
+const globalMixin = {
     methods: {
         ...mapActions(["postIngredient",]),
         ...mapMutations(["setMessage",]),
@@ -51,20 +51,6 @@ export const globalMixins = {
             type: "error"
             });
             },
-        validateProjectName(projectName) {
-            if(projectName.length > 0){
-                this.fetchByName(projectName)
-                .then(response => {
-                    let test = response.data.data;
-                    if(!test[0]){ this.setMessage(false)}
-                    else{this.setMessage(true)}
-                    
-                })
-                .catch(error => {
-                    console.log(error)
-                })
-            }
-        }
     }
   };
-  
+export default globalMixin;

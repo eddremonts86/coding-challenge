@@ -18,16 +18,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-
-
 Route::get('/projects/search/{name}', 'ProjectController@findByName');
 Route::get('/projects/{id}', 'ProjectController@showAPI');
 Route::get('/projects', 'ProjectController@all');
 Route::post('/projects/add', 'ProjectController@add');
 Route::post('/projects/update', 'ProjectController@update');
 Route::post('/projects/delete', 'ProjectController@delete');
-
 
 Route::post('/entry/start', 'EntryController@start');
 Route::post('/entry/stop', 'EntryController@stop');

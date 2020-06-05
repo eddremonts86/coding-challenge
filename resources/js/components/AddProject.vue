@@ -41,11 +41,15 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
+import globalMixin from "../mixins/globalMixin.js";
+
+
 export default {
   data: () => ({
     projectName: "",
     valid: true
   }),
+  mixins: [globalMixin],
   computed: { ...mapGetters(["getMessage"]) },
   methods: {
     ...mapActions(["fetchByName", "postProject","fetchAll"]),
