@@ -27,7 +27,12 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary"  data-cy="cy-projectAddProjectButtonCancel" @click.prevent="closeModal">Cancel</button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-cy="cy-projectAddProjectButtonCancel"
+            @click.prevent="closeModal"
+          >Cancel</button>
           <button
             type="button"
             class="btn btn-success"
@@ -87,6 +92,7 @@ export default {
               })
               .finally(() => {
                 $(vm.$refs.modal).modal("hide");
+                this.projectName = "";
                 this.fetchAll();
               });
           } else {

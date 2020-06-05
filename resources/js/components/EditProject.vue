@@ -19,7 +19,7 @@
               name="project_name"
               id="project_name"
               class="form-control"
-             data-cy="cy-EditProject"
+              data-cy="cy-EditProject"
               v-model="projectName"
               @keyup="validateProjectName"
             />
@@ -32,7 +32,7 @@
             class="btn btn-success"
             @click.prevent="submit"
             :disabled="getMessage"
-data-cy="cy-projectEditProjectSave"
+            data-cy="cy-projectEditProjectSave"
           >Save project</button>
         </div>
       </div>
@@ -70,7 +70,7 @@ export default {
       this.projectName = "";
     },
     submit() {
- const vm = this;
+      const vm = this;
       this.putProject({
         id: this.project.id,
         name: this.projectName
@@ -90,6 +90,8 @@ export default {
             text: error,
             type: "error"
           });
+        }).finally(() => {
+            this.projectName= ""
         })
 
         .finally(() => this.fetchAll());

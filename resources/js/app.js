@@ -4,9 +4,9 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+require("./bootstrap");
 
-window.Vue = require('vue');
+window.Vue = require("vue");
 
 /**
  * The following block of code may be used to automatically register your
@@ -19,34 +19,32 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('project', require('./components/Project.vue').default);
-Vue.component('projects', require('./components/Projects.vue').default);
+Vue.component("project", require("./components/Project.vue").default);
+Vue.component("projects", require("./components/Projects.vue").default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-import store from './store'
-import * as mutations from './store/mutation-types'
-import * as actions from './store/action-types'
-
-
+import store from "./store";
+import * as mutations from "./store/mutation-types";
+import * as actions from "./store/action-types";
 
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 Vue.use(VueSweetalert2, {
     confirmButtonColor: "#1f4aff",
     cancelButtonColor: "#C62828"
-  });
+});
 
 if (window.user) {
-    store.commit(mutations.LOGGED_USER, window.user)
-    } else {
-    store.dispatch(actions.LOGGED_USER)
-    }
+    store.commit(mutations.LOGGED_USER, window.user);
+} else {
+    store.dispatch(actions.LOGGED_USER);
+}
 
 const app = new Vue({
-    el: '#app',
+    el: "#app",
     store
 });

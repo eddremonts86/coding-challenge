@@ -29,10 +29,10 @@
         </thead>
 
         <tbody v-if="getProjects">
-          <tr v-for="project in getProjects.data"   :key="project.id">
-            <td v-text="project.name"  @click.prevent="editProject(project)"></td>
+          <tr v-for="project in getProjects.data" :key="project.id">
+            <td v-text="project.name" @click.prevent="editProject(project)"></td>
             <td v-text="project.entries"></td>
-           <td v-text="project.TotalHours"></td>
+            <td v-text="project.TotalHours"></td>
             <td class="text-right">
               <button
                 type="button"
@@ -41,7 +41,11 @@
                 @click.prevent="editProject(project)"
               >Edit</button>
 
-              <a :href="`/projects/${project.id}`" :data-cy="`cy-ditails-${project.name}`" class="btn btn-sm btn-secondary">Details</a>
+              <a
+                :href="`/projects/${project.id}`"
+                :data-cy="`cy-ditails-${project.name}`"
+                class="btn btn-sm btn-secondary"
+              >Details</a>
 
               <button
                 type="button"
@@ -67,14 +71,14 @@ import globalMixin from "../mixins/globalMixin.js";
 
 export default {
   name: "Projects",
- props: ['projects'],
+  props: ["projects"],
   components: {
     "add-project": AddProject,
     "edit-project": EditProject
   },
   mixins: [globalMixin],
   computed: {
-    ...mapGetters(["getProjects","getAlertState"])
+    ...mapGetters(["getProjects", "getAlertState"])
   },
   created() {
     this.fetchAll();
@@ -87,15 +91,17 @@ export default {
     editProject(project) {
       this.$refs.edit.open(project);
     },
-    deleteProjectById(id,name) {
-      let vue=this;
+    deleteProjectById(id, name) {
+      let vue = this;
 
       this.delete("projetc", name).finally(() => {
-        if (!this.getAlertState) {return true;}
+        if (!this.getAlertState) {
+          return true;
+        }
         this.deleteProject({ id: id })
-        .then(function(response) {
+          .then(function(response) {
             if (response) {
-               vue.$swal({
+              vue.$swal({
                 title: "Deleted Project!",
                 text: "Operation has been done!",
                 type: "success"
@@ -109,12 +115,11 @@ export default {
               type: "error"
             });
           })
-        .finally(() => {
-             this.fetchAll()}
-            );
-
-    });
-   }
- }
+          .finally(() => {
+            this.fetchAll();
+          });
+      });
+    }
+  }
 };
 </script>

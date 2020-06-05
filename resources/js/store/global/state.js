@@ -1,4 +1,4 @@
 const state = {
-  alertState: false,
+    alertState: false
 };
 export default state;

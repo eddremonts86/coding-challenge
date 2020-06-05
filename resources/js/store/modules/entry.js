@@ -2,8 +2,8 @@ import axiosConnection from "../axios/axiosConnection.js";
 
 const entry = {
     state: {
-        apiUrl: "entry/",
-     },
+        apiUrl: "entry/"
+    },
     mutations: {},
     actions: {
         putEntry({ state }, dataObject) {

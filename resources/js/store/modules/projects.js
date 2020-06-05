@@ -28,7 +28,7 @@ const projects = {
             return data;
         },
 
-        fetchById({ commit , state}, id) {
+        fetchById({ commit, state }, id) {
             const urlBase = state.apiUrl;
             axiosConnection.getById(urlBase, id).then(resp => {
                 commit("setProject", resp.data.data);

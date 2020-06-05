@@ -13,7 +13,7 @@ class axiosConnection {
         };
     }
     async getById(apiUrl, id) {
-        const url = this.urlBase() + apiUrl +  id;
+        const url = this.urlBase() + apiUrl + id;
         return await Axios.get(url, this.axiosConf(), id);
     }
     async getByFilter(apiUrl, filter) {

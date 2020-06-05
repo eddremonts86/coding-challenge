@@ -3,10 +3,10 @@ import Vuex from "vuex";
 import projects from "./modules/projects";
 import entry from "./modules/entry";
 
-import state  from "./global/state";
-import mutations  from "./global/mutations";
-import actions  from "./global/actions";
-import getters  from "./global/getters";
+import state from "./global/state";
+import mutations from "./global/mutations";
+import actions from "./global/actions";
+import getters from "./global/getters";
 
 Vue.use(Vuex);
 
@@ -18,8 +18,8 @@ export default new Vuex.Store({
     actions,
     getters,
     modules: {
-        projects:projects,
-        entry:entry
+        projects: projects,
+        entry: entry
     },
     strict: debug
 });
