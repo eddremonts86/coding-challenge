@@ -1971,6 +1971,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2016,6 +2021,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             });
           })["finally"](function () {
             $(vm.$refs.modal).modal("hide");
+            _this.projectName = "";
 
             _this.fetchAll();
           });
@@ -2155,6 +2161,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           text: error,
           type: "error"
         });
+      })["finally"](function () {
+        _this.projectName = "";
       })["finally"](function () {
         return _this.fetchAll();
       });
@@ -2394,13 +2402,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Projects",
-  props: ['projects'],
+  props: ["projects"],
   components: {
     "add-project": _AddProject__WEBPACK_IMPORTED_MODULE_0__["default"],
     "edit-project": _EditProject__WEBPACK_IMPORTED_MODULE_1__["default"]
@@ -56618,8 +56630,8 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('project', __webpack_require__(/*! ./components/Project.vue */ "./resources/js/components/Project.vue")["default"]);
-Vue.component('projects', __webpack_require__(/*! ./components/Projects.vue */ "./resources/js/components/Projects.vue")["default"]);
+Vue.component("project", __webpack_require__(/*! ./components/Project.vue */ "./resources/js/components/Project.vue")["default"]);
+Vue.component("projects", __webpack_require__(/*! ./components/Projects.vue */ "./resources/js/components/Projects.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -56643,7 +56655,7 @@ if (window.user) {
 }
 
 var app = new Vue({
-  el: '#app',
+  el: "#app",
   store: _store__WEBPACK_IMPORTED_MODULE_0__["default"]
 });
 
@@ -56677,7 +56689,7 @@ try {
 
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -57042,7 +57054,7 @@ var globalMixin = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOGGED_USER", function() { return LOGGED_USER; });
-var LOGGED_USER = 'LOGGED_USER';
+var LOGGED_USER = "LOGGED_USER";
 
 /***/ }),
 
@@ -57606,7 +57618,7 @@ var projects = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOGGED_USER", function() { return LOGGED_USER; });
-var LOGGED_USER = 'LOGGED_USER';
+var LOGGED_USER = "LOGGED_USER";
 
 /***/ }),
 
